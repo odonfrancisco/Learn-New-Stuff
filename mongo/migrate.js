@@ -7,11 +7,23 @@ const client = new MongoClient(url);
 const dbName = "nobel";
 
 async function main() {
-    await client.connect();
-    console.log("connected to server");
-    const db = client.db(dbName);
-    const collection = db.collection('prizes');
-    await collection.insertMany(prizes);
+    return new Promise((resolve, reject) => {
+        client.connect().then(client => {
+            console.log("connected to server");
+            const db = client.db(dbName);
+            let collection = db.collection('prizes');
+            collection.drop((err, delOk) => {
+                if(err) reject(err);
+                collection = db.collection('prizes');
+                collection.insertMany(prizes).then(result => {
+                    resolve(result);
+                }).catch(err => {
+                    reject(err);
+                });
+            });
+            // collection.insertMany(prizes);        
+        })
+    })
 }
 
 // console.log(prizes[0]);

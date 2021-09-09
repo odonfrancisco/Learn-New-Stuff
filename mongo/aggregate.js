@@ -17,17 +17,28 @@ const main = () => {
             const collection = db.collection('prizes');
 
             const match = {
-                laureates: {
-                    $elemMatch: {
-                        firstname: "Jean-Pierre"
-                    }
-                }
+                // laureates: {
+                //     $elemMatch: {
+                //         firstname: "Jean-Pierre"
+                //     }
+                // }
+                category: "economics"
             }
             const group = {
-                _id: "$category",
+                _id: "$year",
                 count: {
-                    $sum: 1
-                }
+                    $count: {}
+                },
+                winRatio: {
+                    $avg: {
+                        $divide: [
+                            "$wins",
+                            {
+                                $add: ["$wins", "$losses"]
+                            },
+                        ]    
+                    }
+                },
             }
             
             // const cursor = collection.find(query, options)
@@ -39,6 +50,12 @@ const main = () => {
                     $group: group
                 }
             ])
+
+
+            // db.inventory.aggregate( [ { $unwind : "$sizes" } ] )
+            
+            
+            
             const arr = cursor.toArray();
             resolve(arr);
         });
