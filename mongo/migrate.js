@@ -30,7 +30,7 @@ async function main() {
 
 main().then(result => {
     console.log("result")
-    console.log(result);
+    console.log(result.length);
 }).catch(err => {
     console.log("error occured");
     console.log(err);

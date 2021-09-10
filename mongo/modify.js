@@ -25,7 +25,7 @@ async function main() {
                     // console.log(rando);
                     collection.findOneAndUpdate({_id: e._id}, {
                         $set: {
-                            wins: rando
+                            losses: rando
                         }
                     }).then(result => {
                         resolve(result);
