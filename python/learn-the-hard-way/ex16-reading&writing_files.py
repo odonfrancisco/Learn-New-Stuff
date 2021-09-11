@@ -12,7 +12,9 @@ print "Opening the file..."
 target = open(filename, 'w')
 
 print "Truncating the file. Goodbye!"
-target.truncate()
+# So we don't need .truncate() here since we're
+# # opening the file with 'w' argument
+# target.truncate()
 
 print "Now I'm going to ask you for three lines."
 
